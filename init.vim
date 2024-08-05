@@ -157,3 +157,6 @@ set shiftwidth=2
 set expandtab
 set nowrap
 colorscheme tokyonight-night
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = "deus"
