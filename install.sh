@@ -9,35 +9,41 @@ INIT_VIM_DEST="$NVIM_CONFIG_DIR/init.vim"
 # Create the Neovim config directory if it doesn't exist
 mkdir -p "$NVIM_CONFIG_DIR"
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
 # Create a symbolic link for init.vim
 if [ -e "$INIT_VIM_DEST" ]; then
-  echo "Removing existing init.vim..."
+  echo -e "${YELLOW}Removing existing init.vim...${NC}"
   rm "$INIT_VIM_DEST"
 fi
 
-echo "Creating symbolic link for init.vim..."
+echo -e "${GREEN}Creating symbolic link for init.vim...${NC}"
+
 ln -s "$INIT_VIM_SOURCE" "$INIT_VIM_DEST"
 
 if command -v brew &> /dev/null; then
-  echo "Homebrew is installed. Checking for Hack Nerd Font..."
+  echo -e "${GREEN}Homebrew is installed. Checking for Hack Nerd Font...${NC}"
 
   if brew list --cask | grep -q "font-hack-nerd-font"; then
-    echo "Hack Nerd Font is already installed."
+    echo -e "${GREEN}Hack Nerd Font is already installed.${NC}"
   else
-    echo "Hack Nerd Font is not installed. Installing..."
+    echo -e "${YELLOW}Hack Nerd Font is not installed. Installing...${NC}"
     brew tap homebrew/cask-fonts
     brew install font-hack-nerd-font
   fi
 else
-  echo "Homebrew is not installed. Please install it and run the script again"
+  echo -r "${RED}Homebrew is not installed. Please install it and run the script again${NC}"
   return 1
 fi
 # Check if Neovim is installed
 if command -v nvim &> /dev/null
 then
-  echo "Neovim is already installed."
+  echo -e "${GREEN}Neovim is already installed.${NC}"
 else
-  echo "Neovim is not installed. Installing Neovim..."
+  echo -e "${YELLOW}Neovim is not installed. Installing Neovim...${NC}"
   # For Debian-based systems
   brew install neovim
 
@@ -46,11 +52,11 @@ fi
 
 # Ensure required packages like ripgrep are installed
 # This script uses `apt` for installation. Modify as needed for other package managers.
-echo "Checking for required packages..."
+echo -e "${YELLOW}Checking for required packages...${NC}"
 if brew list ripgrep &> /dev/null; then
-  echo "ripgrep is already installed."
+  echo -e "${GREEN}ripgrep is already installed.${NC}"
 else
-  echo "ripgrep is not installed. Installing ripgrep..."
+  echo -e "${YELLOW}ripgrep is not installed. Installing ripgrep...${NC}"
   brew install ripgrep
 fi
-echo "Setup complete."
+echo -e "${GREEN}Setup complete.${NC}"
