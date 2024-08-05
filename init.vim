@@ -1,6 +1,7 @@
 call plug#begin()
 
-Plug 'preservim/nerdtree'
+Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 Plug 'folke/tokyonight.nvim'
@@ -9,7 +10,6 @@ Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'dense-analysis/ale'
-Plug 'neovim/nvim-lspconfig'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -17,6 +17,10 @@ Plug 'numToStr/Comment.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-nerdtree-syntax-highlight'
 Plug 'andymass/vim-matchup'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 
 call plug#end()
 
@@ -25,21 +29,21 @@ lua require('Comment').setup()
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowHidden = 1
-let g:NERDTreeIgnore = ['.git']
+let g:NERDTreeIgnore = ['\\.git$', '\\.pyc$', '\\.o$', '\\.obj$', '\\.bak$', '\\.swp$', '\\.lock$']
 
 " ALE configurations
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'tslint'],
-\		'typescriptreact': ['prettier', 'tslint']	,
+\   'typescript': ['prettier', 'eslint'],
+\		'typescriptreact': ['prettier', 'eslint']	,
 \   'css': ['stylelint', 'prettier'],
 \   'scss': ['stylelint', 'prettier'],
 \}
 let g:ale_linters = {
 \   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'tslint'],
+\   'typescript': ['prettier', 'eslint'],
 \   'css': ['stylelint'],
 \   'scss': ['stylelint'],
 \}
@@ -56,7 +60,8 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn :call CocActionAsync('rename')<CR>
 
 
-" autocmd CursorHold * silent call CocActionAsync('doHover')
+" Remap Esc to go from terminal insert mode to normal mode
+" tnoremap <Esc> <C-\><C-n>
 
 " map a key to show documentation when putting cursor at a method or variable
 nnoremap <silent> K :call CocActionAsync('doHover')<CR>
@@ -67,34 +72,6 @@ inoremap <expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 " <c-space> to trigger completion
 inoremap <silent><expr> <c-space> coc#refresh()
-
-" Load Telescope
-
-"lua << EOF
-"local nvim_lsp = require('lspconfig')
-"
-"nvim_lsp.tsserver.setup{
-"    on_attach = function(client, bufnr)
-"        local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-"        local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-"
-"        buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-"
-"        -- Mappings.
-"        local opts = { noremap=true, silent=true }
-"
-"        -- See `:help vim.lsp.*` for documentation on any of the below functions
-"        buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-"        buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-"        buf_set_keymap('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-"        buf_set_keymap('n', '<leader>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-"        buf_set_keymap('n', '<leader>e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-"        buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-"        buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-"        buf_set_keymap('n', '<leader>q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-"    end
-"}
-"EOF
 
 nnoremap <leader>ff :lua require('telescope.builtin').find_files({ hidden = true })<CR>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
@@ -139,17 +116,9 @@ require('ts_context_commentstring').setup {
 }
 EOF
 
-" Configure Treesitter and ts-context-commentstring
-"lua << EOF
-"require'nvim-treesitter.configs'.setup {
-"  ensure_installed = {'javascript', 'typescript', 'tsx', 'html'},
-"}
-"EOF
-
-" Configure Treesitter and ts-context-commentstring
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {'javascript', 'typescript', 'tsx', 'html'},
+  ensure_installed = {'javascript', 'typescript', 'tsx', 'html', 'vim', 'vimdoc'},
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
@@ -159,6 +128,26 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 EOF
+
+" Setup toogleterm
+lua << EOF
+require("toggleterm").setup{
+  size = 20,
+  open_mapping = [[<c-\>]],
+  hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = '1',
+  start_in_insert = true,
+  insert_mappings = true,
+  terminal_mappings = false,
+  persist_size = true,
+  direction = 'horizontal',
+  close_on_exit = true,
+  shell = vim.o.shell,
+}
+EOF
+
 
 autocmd VimEnter * NERDTree
 
