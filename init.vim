@@ -15,7 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'numToStr/Comment.nvim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'vim-nerdtree-syntax-highlight'
+" Plug 'vim-nerdtree-syntax-highlight'
 Plug 'andymass/vim-matchup'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'vim-airline/vim-airline'

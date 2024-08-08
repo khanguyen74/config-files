@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Inspired by https://github.com/bahamas10/dotfiles/blob/master/install
+
 # Define variables
 REPO_PATH="$(pwd)"  # Get the current directory where the script is located
 NVIM_CONFIG_DIR="$HOME/.config/nvim"
@@ -14,6 +16,16 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+
+symlink() {
+  printf '%55s -> %s\n' "${1/#$HOME/\~}" "${2/#$HOME/\~}"
+	ln -nsf "$@"
+}
+configfiles=(
+  skhd
+  yabai
+)
+
 # Create a symbolic link for init.vim
 if [ -e "$INIT_VIM_DEST" ]; then
   echo -e "${YELLOW}Removing existing init.vim...${NC}"
@@ -21,6 +33,16 @@ if [ -e "$INIT_VIM_DEST" ]; then
 fi
 
 echo -e "${GREEN}Creating symbolic link for init.vim...${NC}"
+
+
+# loop through config files in ~/.config/${configDirectory}/${configFile}
+for f in "${configfiles[@]}"; do
+  if [[ -d ~/.config/$f && ! -L ~/.config/$f ]]; then
+    printf  "${YELLOW} Removing existing directory ~/.config/$f...\n${NC}"
+    rm -r ~/.config/"$f"
+  fi
+	symlink "$PWD/$f" ~/.config/"$f"
+done
 
 ln -s "$INIT_VIM_SOURCE" "$INIT_VIM_DEST"
 
