@@ -15,16 +15,22 @@ Plug 'tpope/vim-fugitive'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'numToStr/Comment.nvim'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'vim-nerdtree-syntax-highlight'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'andymass/vim-matchup'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'github/copilot.vim'
 
 
 call plug#end()
 
 lua require('Comment').setup()
+
+let g:airline_section_y = ''
+let g:airline_section_z = ''
+let g:airline_skip_empty_sections = 1
+
 
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
@@ -60,14 +66,33 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn :call CocActionAsync('rename')<CR>
 
 
-" Remap Esc to go from terminal insert mode to normal mode
-" tnoremap <Esc> <C-\><C-n>
+let g:copilot_workspace_folders = ['~/Development']
+
 
 " map a key to show documentation when putting cursor at a method or variable
 nnoremap <silent> K :call CocActionAsync('doHover')<CR>
 
 " Map Enter to confirm selection in Coc.nvim
 inoremap <expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
+" auto highlight current file in nerdtree when there is file in buffer
+" autocmd BufEnter * if expand('%') != '' && &ft != 'nerdtree' && &ft != 'nerdtree' | silent! execute 'NERDTreeFind' | wincmd p | endif
+
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind if NERDTree is active, the current window contains a modifiable file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    silent! execute 'NERDTreeFind'
+    wincmd p
+  endif
+endfunction
+
+" Highlight the currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
 
 
 " <c-space> to trigger completion

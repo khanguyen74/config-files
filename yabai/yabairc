@@ -82,6 +82,10 @@ yabai -m rule --add label="Software Update" title="Software Update" manage=off
 yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
 yabai -m rule --add label="Apple Music" app="^Music$" title=".*" manage=off
 yabai -m rule --add label="Home Assistant" app="^Home Assistant$" title=".*" manage=off
+yabai -m rule --add label="Messages" app="^Messages$" title=".*" manage=off
+yabai -m rule --add label="Notes" app="^Notes$" title=".*" manage=off
+yabai -m rule --add label="Inkscape" app="^Inkscape$" title=".*" manage=off
+yabai -m rule --add label="Quicken Simplifi" app="^Quicken Simplifi$" title=".*" manage=off
 
 set +x
 printf "yabai: configuration loaded...\\n"
