@@ -21,6 +21,7 @@ Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'github/copilot.vim'
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
 
 call plug#end()
@@ -181,6 +182,9 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set nowrap
+set relativenumber
+set ignorecase
+set smartcase
 colorscheme tokyonight-night
 
 let g:airline_powerline_fonts = 1
