@@ -68,8 +68,8 @@ shift + lctrl + alt - k : yabai -m window --insert north
 shift + lctrl + alt - l : yabai -m window --insert east
 
 # Create and destroy spaces
-lctrl + alt - n : yabai -m space --create
-lctrl + alt - d : yabai -m space --destroy
+ctrl + alt - n : yabai -m space --create
+ctrl + alt - d : yabai -m space --destroy
 
 # Float / Unfloat window
 alt - t : \

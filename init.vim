@@ -23,6 +23,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'github/copilot.vim'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
+" Lazygit plugin
+Plug 'kdheepak/lazygit.nvim'
+
 
 call plug#end()
 
@@ -66,6 +69,9 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn :call CocActionAsync('rename')<CR>
 
+" setup mapping to call :LazyGit
+nnoremap <silent> <leader>gg :LazyGit<CR>
+
 
 let g:copilot_workspace_folders = ['~/Development']
 
@@ -93,7 +99,7 @@ function! SyncTree()
 endfunction
 
 " Highlight the currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
+" autocmd BufEnter * call SyncTree()
 
 
 " <c-space> to trigger completion

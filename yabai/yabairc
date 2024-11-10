@@ -86,6 +86,12 @@ yabai -m rule --add label="Messages" app="^Messages$" title=".*" manage=off
 yabai -m rule --add label="Notes" app="^Notes$" title=".*" manage=off
 yabai -m rule --add label="Inkscape" app="^Inkscape$" title=".*" manage=off
 yabai -m rule --add label="Quicken Simplifi" app="^Quicken Simplifi$" title=".*" manage=off
+yabai -m rule --add label="Microsoft Outlook" app="^Microsoft Outlook$" title=".*" manage=off
+yabai -m rule --add label="Preview" app="^Preview$" title=".*" manage=off
+yabai -m rule --add label="NordVPN" app="^NordVPN$" title=".*" manage=off
+yabai -m rule --add label="qBittorrent" app="^qBittorrent$" title=".*" manage=off
+yabai -m rule --add label="Calendar" app="^Calendar$" title=".*" manage=off
+yabai -m rule --add label="Windows App" app="^Windows App$" title=".*" manage=off
 
 set +x
 printf "yabai: configuration loaded...\\n"
