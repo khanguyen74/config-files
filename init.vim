@@ -50,17 +50,20 @@ let g:ale_fixers = {
 \		'typescriptreact': ['prettier', 'eslint']	,
 \   'css': ['stylelint', 'prettier'],
 \   'scss': ['stylelint', 'prettier'],
+\   'markdown': ['prettier'],
 \}
 let g:ale_linters = {
 \   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'eslint'],
 \   'css': ['stylelint'],
 \   'scss': ['stylelint'],
+\   'markdown': ['prettier'],
 \}
 
 let g:ale_linter_aliases = {'typescriptreact': 'typescript'}
 
 nnoremap <C-t> :NERDTreeToggle<CR>
+
 
 " Coc configs
 nmap <silent> gd <Plug>(coc-definition)

@@ -8,6 +8,7 @@ NVIM_CONFIG_DIR="$HOME/.config/nvim"
 INIT_VIM_SOURCE="$REPO_PATH/init.vim"
 INIT_VIM_DEST="$NVIM_CONFIG_DIR/init.vim"
 
+
 # Create the Neovim config directory if it doesn't exist
 mkdir -p "$NVIM_CONFIG_DIR"
 
@@ -25,6 +26,15 @@ configfiles=(
   skhd
   yabai
 )
+
+# setup .zshrc
+if [ -e ~/.zshrc ]; then
+  echo -e "${YELLOW}Removing existing .zshrc...${NC}"
+  rm ~/.zshrc
+fi
+
+echo -e "${GREEN}Creating symbolic link for .zshrc...${NC}"
+ln -s "$PWD/zshrc" ~/.zshrc
 
 # Create a symbolic link for init.vim
 if [ -e "$INIT_VIM_DEST" ]; then
